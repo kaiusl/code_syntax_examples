@@ -20,7 +20,7 @@ __also bold__
 ***emphasized*** 
 __*also*__
  **_also_**
-___also___  // this doesn seem to work 
+___also___
 
 abc `code` abc
 

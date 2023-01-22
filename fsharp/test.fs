@@ -52,19 +52,19 @@ let Three = 3
 let main argv =
     modd.func "param"
     let msg: string = "f \n asf"
-    let msg2 = $"fsfa {msg}"
+    let msg2 = $"abc {msg}"
     let a: String = "fas"
     printfn "Hello world %s" msg
 
     let i, j, k = (1, 2, 3)
-    let a1 = "afs\nf"
+    let a1 = "abc\nf"
     let a2 = $"#{a1:F5}"
     let a3 = @"a\s\nf"
     let a4 = 'b'
 
     let a5 =
         """
-        sf "asfs" as
+        abc "abc" abc
     """
 
     let mutable amut = $"abc {{}} {a1, 10}"

@@ -9,10 +9,10 @@ str3: >
   abc
   abc
   abc
-bool: [true, false]
+bools: [true, false]
 date: 1999-01-23
-time: [22:22:22, 22:22:22.2222]
-datetime:
+times: [22:22:22, 22:22:22.2222]
+datetimes:
   [
     1999-01-23T22:22:22.22Z,
     1999-01-23 22:22:22.22,

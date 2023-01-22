@@ -128,7 +128,7 @@ typedef int COLUMN;
 struct alignas(8) S {};
 
 /**
- * @brief short descrption
+ * @brief short description
  *
  * abc @c inline_code
  * @param param

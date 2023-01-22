@@ -37,7 +37,7 @@ __it__alic
 `*_bold_italic_*`, 
 ``**__bo__**``ld_italic
 
-abc [.unerline]#unerlined# abc
+abc [.underline]#underlined# abc
 abc pass:[<u> underlined</u>] abc
 
 (C) (R) ... ->

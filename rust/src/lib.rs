@@ -172,7 +172,7 @@ impl<T> Enum<T> {
         Self::TupleLike(val)
     }
 
-    pub fn new_strukt(val: T) -> Self
+    pub fn new_struct(val: T) -> Self
     where
         T: Copy,
     {
@@ -417,7 +417,7 @@ mod tests {
 ///         Self::TupleLike(val)
 ///     }
 ///
-///     pub fn new_strukt(val: T) -> Self
+///     pub fn new_struct(val: T) -> Self
 ///     where
 ///         T: Copy,
 ///     {

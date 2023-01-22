@@ -157,7 +157,7 @@ namespace NamespaceA.SubNamespace {
     abstract class BaseClass { }
 
     /// <summary>
-    /// summart. <paramref name="to"> <code> Klass<T></code>
+    /// summary <paramref name="to"> <code> Klass<T></code>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     class SomeClass<T> : BaseClass, ISomeInterface, IDisposable {
