@@ -1,0 +1,30 @@
+---
+# comment
+nums: [1, 0b1000, 0o1000, 0x1234, +1.0, 1.111, 1e+1, 1.1e1, nan, inf]
+strs: ["abc", "abc", "'abc'", "\n\u1234&lt;"]
+str2: |
+  abc
+  abc
+str3: >
+  abc
+  abc
+  abc
+bool: [true, false]
+date: 1999-01-23
+time: [22:22:22, 22:22:22.2222]
+datetime:
+  [
+    1999-01-23T22:22:22.22Z,
+    1999-01-23 22:22:22.22,
+    1999-01-23 22:22:22.22-01:00,
+  ]
+
+map: { v1: 2, v2: 4 }
+map2:
+  v1: 2
+  v2: 4
+
+a: &default 5
+b: *default
+---
+

@@ -1,0 +1,18 @@
+spacetab = _{ 
+    SPACE_SEPARATOR 
+    | " " 
+    | "\t" 
+    | "\\u0009"  // horizontal tab
+    | "\\u000B"  // vertical tab
+    | "\\u000C" 
+    | "﻿"
+}
+
+alpha = { 'a'..'z' | 'A'..'Z' }
+digit = { '0'..'9' }
+
+ident = { (alpha | digit)+ }
+
+ident_list = _{ !digit ~ ident ~ (" " ~ ident)+ }
+
+any = { !'a' ~ ANY }

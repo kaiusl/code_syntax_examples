@@ -1,0 +1,29 @@
+# comment
+nums = [1, 0b1000, 0o1000, 0x1234, +1.0, 1.111, 1e+1, 1.1e1, nan, inf]
+strs = ["abc", 'abc', """abc""", '''abc''', "\n\u1234&lt;"]
+bool = [true, false]
+date = 1999-01-23
+time = [22:22:22, 22:22:22.2222]
+datetime = [
+  1999-01-23T22:22:22.22Z,
+  1999-01-23 22:22:22.22,
+  1999-01-23 22:22:22.22-01:00,
+]
+arr = [[], [[]]]
+map = { a = 1, b = 2 }
+
+# comment
+[group]
+name = "abc"
+
+[group.sub]
+val = 5.315
+
+[[array]]
+val2 = 123
+
+[tab]
+name = "a"
+
+[tab2]
+name = "b"

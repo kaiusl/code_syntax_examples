@@ -1,0 +1,28 @@
+# target dirs
+*target/ 
+*bin/
+*obj/
+*build/
+*dist-newstyle/
+*gradle/
+gradlew*
+
+# ide locals
+*.vs/
+*.vscode/
+*.gradle/
+*.idea/
+*.ipynb_checkpoints/
+
+# latex specific
+/latex/*
+!/latex/test.tex
+
+# other
+*.lock
+*.log
+*.cache
+*TODO*
+
+.fake
+

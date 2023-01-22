@@ -1,0 +1,7 @@
+
+namespace test
+{
+    class Klass
+    {
+    };
+}

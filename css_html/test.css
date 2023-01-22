@@ -1,0 +1,50 @@
+/*comment*/
+
+:root {
+    --blue: blue
+}
+
+*,
+div,
+div elem,
+div>elem,
+div+elem,
+div~elem,
+.someclass,
+div.someclass,
+#someid,
+div#someid,
+#someid *,
+[attribute],
+[attribute=value],
+[attribute~="value"],
+[attribute|='value'],
+[attribute^=value],
+[attribute$=value],
+div[attribute*=value],
+div::first-line,
+div:link,
+div:nth-child(n+1) {
+    color: rgb(1, 2, 3);
+    background-color: beige;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    width: 95%;
+    height: 100px;
+}
+
+@keyframes keyframes {
+    from {
+        color: red;
+    }
+
+    50% {
+        color: green;
+    }
+
+    to {
+        color: yellow;
+    }
+}
+
+@media screen and (max-width: 100px) {}

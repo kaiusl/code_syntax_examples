@@ -1,0 +1,1 @@
+SELECT id FROM tab ORDER BY id WHERE id < 50
