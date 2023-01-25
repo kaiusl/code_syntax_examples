@@ -2,11 +2,7 @@ from abc import abstractmethod
 from dataclasses import dataclass
 import dataclasses
 from typing import Union
-import numpy as np;
-from scipy import optimize;
-from scipy.interpolate import splev;
-from sympy import cos;
-import matplotlib.pyplot as plt;
+import numpy as np
 import os
 from enum import Enum
 import re
@@ -52,18 +48,18 @@ nums %= 1
 nums **= 1
 nums = abs(nums)
 
-boolean = (True 
-    or False 
-    and 1 == 1 
-    or 1 != 1 
-    or not 1 < 1 
-    or 1 > 1 
-    or 1 <= 1 
-    or 1 >= 1 
-    or 1 in [1, 2] 
-    or "a" is str
-    or isinstance(num, float)
-)
+boolean = (True
+           or False
+           and 1 == 1
+           or 1 != 1
+           or not 1 < 1
+           or 1 > 1
+           or 1 <= 1
+           or 1 >= 1
+           or 1 in [1, 2]
+           or "a" is str
+           or isinstance(nums, float)
+           )
 
 list_ = [1, 2, 3]
 list_ = list([1, 2, 3])
@@ -72,8 +68,8 @@ tuple_ = tuple([1, 2, 3])
 set_ = {1, 2, 3}
 set_ = set([1, 2, 3])
 dict_ = {
-    1: 1, 
-    2: 2, 
+    1: 1,
+    2: 2,
     3: 3
 }
 dict_ = dict(a=1, b=2, c=3)
@@ -88,38 +84,44 @@ list_access = (
 first = tuple_[0]
 first = dict_[0]
 
-list_comprehension = [ x**2 for x in range(5) if x < 4 ]
-tuple_comprehension = ( x**2 for x in range(5) if x < 4 )
-set_comprehension = { x**2 for x in range(5) if x < 4 }
-dict_comprehension = { x**2: 2 for x in range(5) if x < 4 }
+list_comprehension = [x ** 2 for x in range(5) if x < 4]
+tuple_comprehension = (x ** 2 for x in range(5) if x < 4)
+set_comprehension = {x ** 2 for x in range(5) if x < 4}
+dict_comprehension = {x ** 2: 2 for x in range(5) if x < 4}
 
 
 def square(x):
-    return x*x
+    return x * x
+
+
 square_lambda = lambda x: x * x
 square_fn = square
 
-if 1 < 2:
+one, two = 1, 2
+if one < two:
     pass
-elif 1 > 2:
+elif one > two:
     pass
 else:
     pass
 
 ternary = 2 if 1 < 2 else 3
 
+
 class Point:
     x: int = 1
     y: int = 2
+
 
 class Color(Enum):
     RED = 0
     GREEN = 1
     BLUE = 2
 
+
 match nums:
     case 1:
-       pass
+        pass
     case 2 | 3 | 4:
         pass
     case (5, 6) | [5, 6]:
@@ -156,10 +158,13 @@ finally:
 with open("filename") as f:
     pass
 
+global_var = 1
+
+
 def func(param: Union[int, str]) -> None:
     """
     this is a doc 
-    @param var variable
+    @param param variable
 
     Parameters
     ----------
@@ -168,17 +173,23 @@ def func(param: Union[int, str]) -> None:
     global global_var
 
     local_var = 5
-    global_var = local_var
+    global_var = local_var + param
+
 
 func(1)
 func(param="abc")
 
+
 def custom_func_decorator(a, b):
-    def returned_func(func):
+    def returned_func(func_inner):
         def wrapper_func(*args, **kwargs):
-            return func(*args, **kwargs)
+            print(a, b)
+            return func_inner(*args, **kwargs)
+
         return wrapper_func
+
     return returned_func
+
 
 @dataclass(init=False)
 class SomeClass:
@@ -186,8 +197,8 @@ class SomeClass:
     raw doc comment
     """
 
-    property_ = 1.87;
-    other_property = np.linspace(0, 1, 100);
+    property_ = 1.87
+    other_property = np.linspace(0, 1, 100)
     integer: int = dataclasses.field(default=1)
 
     def __init__(self, name: str = "abc") -> None:
@@ -195,26 +206,28 @@ class SomeClass:
 
     @custom_func_decorator(15, "abc")
     def func(self):
-        x = self.other_property[..., 0];
-        print(f"{self.property} {{{x}}} {3.6546:.2f}")
-        
+        x = self.other_property[..., 0]
+        print(f"{self.property_} {{{x}}} {3.6546:.2f}")
+
+
 class SomeSubClass2(SomeClass):
     def __init__(self, name: str) -> None:
         if name is None: name = "name"
-        self.name = name
+        super().__init__(name)
 
     def func(self):
         print(f"{self.name}")
 
     @classmethod
     def classmethod(cls):
-        for i in range(5):
-            if i % 2 == 0:
-                print(i)
+        for j in range(5):
+            if j % 2 == 0:
+                print(j)
 
     @staticmethod
     def staticmethod():
         return 1 + 1.1e1
+
 
 class_ = SomeSubClass2("name")
 SomeSubClass2.staticmethod()

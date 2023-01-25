@@ -1,6 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.io.*;
 
 // comment
 /* comment */
@@ -15,22 +15,22 @@ enum ColorEnum {
 	GREEN
 }
 
-interface Interface {
+interface SomeInterface {
 	/**
 	 * text text <code>num() - 1</code>
 	 * {@link java.util.ArrayList} class)
 	 * {@code java.util.ArrayList}
 	 *
-	 * @param param text text
+	 * @param param int text
 	 * @return the number.
 	 * @deprecated
 	 * @exception Exception
 	 *                      may return exception
-	 * @see SomeBaseClass#display()
-	 * @see Interface#interface_method()
+	 * @see SomeBaseClass#display
+	 * @see SomeInterface#interface_method
 	 * @see java.util.ArrayDeque
 	 */
-	abstract int interface_method();
+	ColorEnum interface_method(int param) throws Exception;
 }
 
 class SomeBaseClass {
@@ -43,19 +43,19 @@ class SomeBaseClass {
 		System.out.println(SomeBaseClass.b());
 	}
 
-	private static final int b() {
+	private static int b() {
 		return 5;
 	}
 }
 
-final class SomeClass<E> extends SomeBaseClass implements Interface {
-	public class InnerClass {
+final class SomeClass<E> extends SomeBaseClass implements SomeInterface {
+	public static class InnerClass {
 		public int y = 5;
 	}
 
 	public static int static_field;
 	public E instance_field;
-	private ArrayList<E> list;
+	final private ArrayList<E> list;
 
 	public SomeClass() {
 		super();
@@ -63,8 +63,12 @@ final class SomeClass<E> extends SomeBaseClass implements Interface {
 	}
 
 	@Override
-	public int interface_method() {
-		return 0;
+	public ColorEnum interface_method(int param) throws Exception {
+		return switch (param) {
+			case 1 -> ColorEnum.RED;
+			case 2 -> ColorEnum.GREEN;
+			default -> throw new Exception("a");
+		};
 	}
 
 	public static void static_method() {
@@ -80,61 +84,83 @@ final class SomeClass<E> extends SomeBaseClass implements Interface {
 }
 
 class Main {
-	public static <T extends Number & Comparable<T>> void main(
+	public static void main(String[] args) {
+	}
+
+	public static <T extends Number & Comparable<T>> void test_func(
 			String[] args,
 			List<T> list,
-			List<? extends Number> other_list) {
+			List<? extends Number> other_list) throws Exception {
 		final int final_var = 1;
-		int local_var = final_var;
+		int local_var = final_var + 1;
 		var use_parameter = other_list.get(1);
 
 		int ints = 1 + 0x1234 - 0b1000 * local_var;
-		long long_ = 1l;
+		long long_ = 1L;
 		double doubles = 1 * 1.1 / 1.1e1 % 1.1e-1 + Math.abs(-1) + 1f;
 		doubles = (double) ints + doubles;
 		boolean bool = true && false || !true && 1 == 2 && 1 != 2 && 1 < 2 && 1 > 2 && 1 <= 2 && 1 >= 2;
 		char[] chars = { 'a', '\n' };
 		String[] strings = { "abc", "abc\n", new String("abc") };
 		var string_ = strings[0];
+		System.out.printf("%d %s, %s.4 %s %s %s %s", final_var, local_var, use_parameter, long_, doubles, bool, Arrays.toString(chars));
+
 		System.out.printf("%s.4", string_);
 
 		var base_class = new SomeBaseClass();
 		base_class.display();
 		var class_ = new SomeClass<String>();
+		var inner_class = new SomeClass.InnerClass();
 		class_.display();
 		class_.add("null");
-		class_.interface_method();
+		var some_enum = class_.interface_method(5);
 		class_.static_method();
 		SomeClass.static_method();
 		List<String> strs = class_.return_interface();
-		var _drop = class_.instance_field;
-		var _drop2 = class_.static_field;
-		_drop2 = SomeClass.static_field;
+		var str = class_.instance_field;
+		var some_int = class_.static_field + inner_class.y + SomeClass.static_field;
+		System.out.printf("%s", some_enum);
 
 		// Control flow
-		if (1 < 2) {
-		} else if (1 > 2) {
+		if (some_int < str.length()) {
+			some_int++;
+		} else if (1 > some_int) {
+			some_int++;
 		} else {
+			some_int += 1;
 		}
 
-		var ternary = 1 < 2 ? 1 : 2;
+		int ternary = some_int < 2 ? 1 : some_int;
 
-		switch (1) {
+		switch (ternary) {
 			case 1:
+				some_int++;
 				break;
 			case 2:
 			case 3:
+				some_int += 2;
 				break;
 			default:
 				break;
 		}
 
+		switch (ternary) {
+			case 1 -> some_int++;
+			case 2, 3 -> some_int += 2;
+			default -> {
+			}
+		}
+
 		try {
+			some_int++;
 		} catch (Exception e) {
-		} finally {}
+			some_int++;
+		} finally {
+			some_int++;
+		}
 
 		// Loops
-		var i = 0;
+		var i = some_int;
 		while (i < 5) {
 			for (String string : strings) {
 				if (string.isEmpty()) {
@@ -142,9 +168,12 @@ class Main {
 				}
 			}
 			for (int j = 0; i <= 5; i++) {
+				System.out.print(j);
+			}
+			if (i % 2 == 0) {
+				continue;
 			}
 			i++;
-			continue;
 		}
 		do {
 			i++;
@@ -153,17 +182,20 @@ class Main {
 		var arr2 = new ArrayList<Integer>();
 		arr2.add(1);
 		arr2.forEach((x) -> {
-			var some_var = x * x;
+			System.out.print(x * x);
 		});
-
-
 	}
 
 	private void private_func() {
 	}
 
 	protected double protected_func() {
+		private_func();
 		return 5;
+	}
+
+	public void func() {
+		System.out.print(protected_func());
 	}
 
 }

@@ -7,7 +7,7 @@
 use ::std::io::Write;
 use std::file;
 use std::fmt::Display;
-use std::rc::{self as stdrc, Rc};
+use std::rc::{self as std_rc, Rc};
 use std::sync::atomic::*;
 
 mod other_mod;
@@ -17,7 +17,7 @@ pub use other_mod::CONSTANT as OTHER_CONSTANT;
 
 extern crate rstest;
 extern "C" {}
-extern "C" fn cfunc() {}
+extern "C" fn c_func() {}
 
 // comment
 /* comment */
@@ -25,7 +25,7 @@ extern "C" fn cfunc() {}
 const CONSTANT: u32 = 5;
 static STATIC: u32 = 5;
 
-const fn constfunc() -> Result<(), std::io::Error> {
+const fn const_func() -> Result<(), std::io::Error> {
     Ok(())
 }
 
@@ -47,7 +47,7 @@ where
     <T as Iterator>::Item: Default + for<'a> From<&'a str>,
     'lifetime: 'other,
 {
-    constfunc()?;
+    const_func()?;
     let use_const = CONSTANT + STATIC;
     const LOCAL_CONSTANT: u32 = 5;
     static LOCAL_STATIC: u32 = 5;
@@ -111,7 +111,7 @@ where
     while let Some(a) = param.next() {}
 
     // Conditionals
-    if true || false && 1 < 5 {}
+    if nums.1 < 5 {}
 
     let err = std::io::Error::new(std::io::ErrorKind::Other, "");
     if let Enum::TupleLike(items) = _enum2 {}
@@ -135,13 +135,19 @@ where
     match _enum3 {
         Enum::Plain => todo!(),
         Enum::TupleLike(field) => todo!(),
-        Enum::StructLike { field } => todo!(),
+        Enum::StructLike { field } => {}
     }
 
     Ok(ref_param)
 }
 
 #[cfg(target_os = "linux")]
+#[derive(Debug, Default)]
+struct OnlyLinuxStruct {
+    field: usize,
+    field2: usize,
+}
+
 #[derive(Debug, Default)]
 struct Struct {
     field: usize,
@@ -210,7 +216,7 @@ impl Display for Struct {
     }
 }
 
-macro_rules! makro {
+macro_rules! some_macro {
     ($($t:ty),* => $name:ident) => {
        $(
             pub fn $name(var: $t) -> Result<u64, String> {
@@ -220,7 +226,7 @@ macro_rules! makro {
     };
 }
 
-makro!(u32 => func_u32);
+some_macro!(u32 => func_u32);
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
@@ -240,7 +246,7 @@ mod tests {
 
     #[rstest]
     #[case::name("fsa")]
-    fn casetest(#[case] a: &str) {}
+    fn case_test(#[case] a: &str) {}
 }
 
 /// All the code from above but in a doc example.
@@ -255,17 +261,17 @@ mod tests {
 /// use ::std::io::Write;
 /// use std::file;
 /// use std::fmt::Display;
-/// use std::rc::{self as stdrc, Rc};
+/// use std::rc::{self as std_rc, Rc};
 /// use std::sync::atomic::*;
 ///
-/// mod other_mod;
+/// // mod other_mod;
 /// use self::other_mod::CONSTANT3;
 /// use crate::other_mod::CONSTANT2;
 /// pub use other_mod::CONSTANT as OTHER_CONSTANT;
 ///
 /// extern crate rstest;
 /// extern "C" {}
-/// extern "C" fn cfunc() {}
+/// extern "C" fn c_func() {}
 ///
 /// // comment
 /// /* comment */
@@ -273,7 +279,7 @@ mod tests {
 /// const CONSTANT: u32 = 5;
 /// static STATIC: u32 = 5;
 ///
-/// const fn constfunc() -> Result<(), std::io::Error> {
+/// const fn const_func() -> Result<(), std::io::Error> {
 ///     Ok(())
 /// }
 ///
@@ -295,7 +301,7 @@ mod tests {
 ///     <T as Iterator>::Item: Default + for<'a> From<&'a str>,
 ///     'lifetime: 'other,
 /// {
-///     constfunc()?;
+///     const_func()?;
 ///     let use_const = CONSTANT + STATIC;
 ///
 ///     let _ref = &param;
@@ -356,11 +362,11 @@ mod tests {
 ///     while let Some(a) = param.next() {}
 ///
 ///     // Conditionals
-///     if true || false && 1 < 5 {}
+///     if nums.0 < 5 {}
 ///
 ///     let err = std::io::Error::new(std::io::ErrorKind::Other, "");
 ///     if let Enum::TupleLike(items) = _enum2 {}
-///     let Some(a) = Some(5) else { return Err(err) };
+///     let Some(a) = Some(5) else { return Err(err); };
 ///
 ///     match (1, 2, 3) {
 ///         (a, ..) | (_, a, ..) if a == 2 => {}
@@ -455,7 +461,7 @@ mod tests {
 ///     }
 /// }
 ///
-/// macro_rules! makro {
+/// macro_rules! some_macro {
 ///     ($($t:ty),* => $name:ident) => {
 ///        $(
 ///             pub fn $name(var: $t) -> Result<u64, String> {
@@ -465,7 +471,7 @@ mod tests {
 ///     };
 /// }
 ///
-/// makro!(u32 => func_u32);
+/// some_macro!(u32 => func_u32);
 ///
 /// pub fn add(left: usize, right: usize) -> usize {
 ///     left + right
@@ -485,7 +491,7 @@ mod tests {
 ///
 ///     #[rstest]
 ///     #[case::name("fsa")]
-///     fn casetest(#[case] a: &str) {}
+///     fn case_test(#[case] a: &str) {}
 /// }
 /// ```
 struct DocTest;

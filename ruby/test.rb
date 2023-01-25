@@ -5,20 +5,22 @@ pi = Math::PI
     comment
 =end
 
-a = "alocal\n"
+a = "a_local\n"
 a = %|abc|
 a = :sym
-$aglob = "aglob #{a}"
-ACONST = "aconst"
-@ainstance = "ainstance"
+$a_glob = "a_glob #{a}"
+A_CONST = "a_const"
+@a_instance = "a_instance"
 regex = /\d*\w+/
 
-b = 1, 0x1234, 0b1000, 10.0, 1.0e6
+b = 1, 0x1234, 0b1000, 10.0, 1.0e6, pi
 c = true || false && 5 <= 6
 d = 5 < 6 ? true : false
 
 scope = defined? a
 a.class
+
+print regex, b, c, d, scope
 
 module TestMod
     def func(a, b, *args)
@@ -28,12 +30,12 @@ module TestMod
         args.each do |a| puts a end
         return c
     end
-    alias funcalias func
+    alias func_alias func
 end
 include TestMod
 
 func "no_braces", 2, 3, 4
-TestMod::funcalias(1, 2, 3, 4)
+TestMod::func_alias(1, 2, 3, 4)
 
 lam = lambda { puts "f" } 
 lam2 = -> (arg) { puts arg }
@@ -68,7 +70,7 @@ end
 
 class Class
     @@acls = "abc"
-    @aloc = "abc"
+    @a_loc = "abc"
 
     def b
         @b
@@ -91,7 +93,7 @@ class Class
         puts "a = #{@a}"
     end
 
-    def self.clsfunc
+    def self.cls_func
         return "class func"
     end
 
@@ -109,7 +111,7 @@ end
 g = Class.new("abc")
 g.func
 g.b
-puts Class.clsfunc
+puts Class.cls_func
 puts Class.other_cls_func
 
 class Class2

@@ -5,7 +5,18 @@
 *build/
 *dist-newstyle/
 *gradle/
+*out/
 gradlew*
+*venv/
+
+*.exe
+*.iml
+
+# Cpp
+cpp/**
+!cpp/*.cpp
+!cpp/*.hpp
+!cpp/*.md
 
 # ide locals
 *.vs/
@@ -13,6 +24,9 @@ gradlew*
 *.gradle/
 *.idea/
 *.ipynb_checkpoints/
+
+# markup
+markup/*.html
 
 # latex specific
 /latex/*

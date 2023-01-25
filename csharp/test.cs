@@ -2,17 +2,15 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+
 using M = System.Math;
 using D = System.Diagnostics;
 using NamespaceA.SubNamespace;
 
-using ClassAlias = NamespaceA.SubNamespace.SomeClass<int>;
-
-#region region name
-#endregion
+using ClassAlias = NamespaceA.SubNamespace.SomeClass<double>;
 
 #nullable enable
-#if true 
+#if true
 #endif
 
 // comment
@@ -31,7 +29,7 @@ void func<T>(ref T t) {
         abc
     """;
     raw_string = """""
-                abc """" abc 
+                abc """" abc
                 """"abc
             """"";
     raw_string = $$"""{abc {{strings[0]:-^10}}}""";
@@ -49,21 +47,21 @@ void func<T>(ref T t) {
     double? nullable = ints[0] as double?;
 
     var size = sizeof(char);
-    var size2 = typeof(char);
+    var tyof = typeof(char);
 
     int[,] multi_dim_arr = new int[1, 1];
 
     IEnumerable<int> type_erased_query = from int_ in ints where int_ > 50 select int_;
     Func<int, int> lambda = x => x * x;
     SomeDelegate<int> delegate_ = delegate (int x) {
-        return x * x;
+        return lambda(x);
     };
     delegate_.Invoke(1);
 
     SomeEnum someenum = SomeEnum.A | SomeEnum.B;
     var cls = new SomeClass<int>();
     var a = (
-        SomeClass<int>.ConstVar,
+        ClassAlias.ConstVar,
         SomeClass<int>.StaticVar,
         cls.ReadonlyVar,
         cls.Field,
@@ -86,15 +84,19 @@ void func<T>(ref T t) {
     switch (chars) {
         case ('a', 'b') when true:
             break;
+
         case ('b', _):
             break;
+
         default:
             break;
     }
 
     try {
         throw new Exception("msg");
-    } catch (Exception e) { } finally { }
+    } catch (Exception e) {
+        Console.WriteLine(e);
+    } finally { }
 
     // Loops
 
@@ -111,10 +113,8 @@ void func<T>(ref T t) {
 
     foreach (var int_ in ints) { }
 
-
     IEnumerable<int> type_erased_query2 = from int_ in ints where int_ > 50 select int_;
     int number = ints.Select(i => i).Aggregate((acc, i) => acc += i);
-
 
     // misc
 
@@ -123,8 +123,7 @@ void func<T>(ref T t) {
     }
 label:
 
-    Console.WriteLine("Hello, World!");
-
+    Console.WriteLine($"#{a}, #{someenum}, #{size}, #{tyof}");
 
     lock (ints) {
         checked { ints[0]++; }
@@ -132,44 +131,53 @@ label:
     }
 }
 
+int v = 1;
+func(ref v);
+
 async Task<int> async_func() {
     var value = await Task.Run(() => 5);
     return value;
 };
 
 namespace NamespaceA.SubNamespace {
+
     [Flags]
     public enum SomeEnum {
         A = 0,
         B,
     }
 
-    interface ISomeInterface {
+    internal interface ISomeInterface {
         public const int InterfaceConstVar = 5;
         public static int InterfaceStaticVar = 5;
 
         abstract void InterfaceFunc();
+
         abstract static void InterfaceStaticFunc();
     }
 
     public delegate int SomeDelegate<out T>(int i);
 
-    abstract class BaseClass { }
+    internal abstract class BaseClass { }
 
     /// <summary>
     /// summary <paramref name="to"> <code> Klass<T></code>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class SomeClass<T> : BaseClass, ISomeInterface, IDisposable {
+    internal class SomeClass<T> : BaseClass, ISomeInterface, IDisposable {
+
         // fields
         private int _privVar = 5;
+
         protected int ProtectedVar = 5;
         public const int ConstVar = 5;
         public static int? StaticVar = null;
         public readonly int ReadonlyVar = 5;
         internal int Field = 5;
+
         // properties
-        private int _PrivateProp { get; set; } = 5;
+        private int PrivateProp { get; set; } = 5;
+
         protected int ProtectedProp { get; private set; } = 5;
         public static int StaticProp { get => StaticVar ?? 1; private set => StaticVar = value; }
         public int Prop { get { return 5; } set { _privVar = 5; } }
@@ -177,9 +185,9 @@ namespace NamespaceA.SubNamespace {
         // delegate and event
         public event SomeDelegate<int>? SomeEvent;
 
-        private T[] _data = new T[1];
+        private readonly T?[] _data = new T[1];
 
-        public SomeClass(T def = default(T)) {
+        public SomeClass(T? def = default) {
             _data[0] = def;
             var a = _privVar
                 + this.ProtectedVar
@@ -187,24 +195,36 @@ namespace NamespaceA.SubNamespace {
                 + StaticVar
                 + ReadonlyVar
                 + Field
-                + _PrivateProp
+                + PrivateProp
                 + ProtectedProp
                 + StaticProp;
-
         }
-        ~SomeClass() { }
 
-        public T this[int i] {
+        ~SomeClass() {
+        }
+
+        public T? this[int i] {
             get => _data[i];
-            set => this._data[i] = value;
+            set => _data[i] = value;
         }
 
         [method: Conditional("DEBUG")]
         public static void StaticFunc([In] int i) { }
+
         public int Func() => 3;
-        void IDisposable.Dispose() { }
-        public void InterfaceFunc() { }
-        public static void InterfaceStaticFunc() { }
+
+        void IDisposable.Dispose() {
+            GC.SuppressFinalize(this);
+        }
+
+        public void InterfaceFunc() {
+            var ty = SomeEvent?.GetType();
+            Console.WriteLine(ty);
+        }
+
+        public static void InterfaceStaticFunc() {
+        }
+
         public static SomeClass<T> operator +(SomeClass<T> a, SomeClass<T> b) {
             return a;
         }
@@ -214,6 +234,7 @@ namespace NamespaceA.SubNamespace {
     [System.AttributeUsage(System.AttributeTargets.Method)]
     public class CustomAttribute : System.Attribute {
         private bool value;
+
         public CustomAttribute(bool value) {
             this.value = value;
         }

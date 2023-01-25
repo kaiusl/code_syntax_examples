@@ -1,6 +1,6 @@
 # Code Syntax Examples
 
-A collection of code examples intended for editor theme testing. 
+A collection of code examples intended for editor theme testing. All examples assume that the latest language version (at the time of writing) is used.
 
 :heavy_check_mark: - thorough example, :yellow_circle: - maybe incomplete example, :x: - not yet done, but is planned
 
@@ -12,10 +12,10 @@ A collection of code examples intended for editor theme testing.
 - :yellow_circle: Ruby
 - :yellow_circle: Go
 - :heavy_check_mark: Java
-- :yellow_circle: Kotlin 
+- :yellow_circle: Kotlin (using Gradle)
 - :x: Scala
 - :x: Swift
-- :yellow_circle: Haskell
+- :yellow_circle: Haskell (using Cabal)
 - :x: Dart
 - :yellow_circle: Javascript
 - :yellow_circle: Javascript React (.jsx)

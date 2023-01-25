@@ -2,23 +2,7 @@
 
 import { func_test2 as f_test2 } from './test2.js'
 import * as t2 from './test2.js'
-import React from 'react'
 
-// JSX specific
-
-let v1 = 5;
-const elem = <h1>heading {v1}, {23}</h1>;
-const elem2 = <a href="afs" onClick={f_test2}>asd saf  {elem}</a>
-
-class NewHeading extends React.Component {
-    render() {
-        return <h1>{this.props.text}</h1>;
-    }
-}
-
-const user_elem = <NewHeading text="sa"></NewHeading>
-
-// Regular JS
 f_test2()
 t2.func_test2()
 
@@ -26,22 +10,24 @@ t2.func_test2()
 /*comment*/
 
 var n1 = 5;
-let n2 = 5.0;
+let n2: number = 5.0;
 let n3 = 10n;
-const A3 = "sa ${a1}";
+let n4 = 10 as number;
+let n5 = <number>10
+const A3: string = "sa ${a1}";
 let a4 = 's\na\x12';
 let a5 = `sa ${n1 + n2}`;
-let arr = [1, 3, NaN]
-let bol = true || 1 < 4;
+let arr: Array<number> = [1, 3, NaN]
+let bol: boolean = true || 1 < 4;
 let bol2 = true ? "fas" : 5;
 let bol3 = bol2 ?? true;
 let undef = undefined;
 let ty = typeof A3;
 let ty2 = typeof (1 + 2);
 let sym = Symbol("as");
-let a6 = new String(n1);
+let a6 = String(n1);
 
-console.log(n3, a4, a5, bol, bol3, undef, ty, ty2, sym, a6)
+console.log(n1, n2, n3, n4, n5, a4, a5, bol, bol3, undef, ty, ty2, sym, a6)
 
 // control flow
 
@@ -67,30 +53,40 @@ label: for (let i = 0; i < 5; i++) {
     while (i == 0) {
         break label;
     }
-    continue;
 }
 
 arr.forEach(n => n ** 2)
 
 // functions
 
+type OneOrMore<T> = T | T[]
+type Kls = keyof SomeBaseClass
+
 /**
- * 
- * @param {number} param 
- * @returns 
+ *
+ * @param {number} param
+ * @returns
  */
-export function func1(param, p2 = 5, p3 = func1(5), ...args) {
+export function func1(param?: number, p2 = 5, p3 = func1(5), ...args): number {
     let a = n1 + n2 - arr[0] ** arr[1] + p2
 
     alert(param)
     console.log(a, p3, args)
     return 0
 }
-let func2 = function (param, p2 = 5, p3 = func2(5)) {
-    return 0
+
+let func2 = function (param: OneOrMore<number>, p2 = 5, p3 = func1(5)) {
+    return param
 };
+
 let func3 = (p1, p2) => p1 * p2;
 let func4 = new Function("a", "return 0")
+let func5 = function (): 0 | 1 | SomeEnum.A {
+    return SomeEnum.A
+}
+
+function generic_func<T extends { a: unknown }>(t: T) {
+}
 
 async function async_func() {
     return 0
@@ -109,26 +105,49 @@ let f1 = func1(6)
 let f2 = func2(5, 3, 7)
 let f3 = func3(1, 2)
 let f4 = func4(1)
+let f5 = func5()
 let g = generator()
+let g2 = generic_func({ a: 1 })
 
-console.log(f1, f2, f3, f4, g)
+console.log(f1, f2, f3, f4, f5, g, g2)
 
-// Objects
+// objects
 
 function ConstructorFunc(a) {
     this.a = a
 }
 
-class SomeBaseClass {
-    constructor(v) {
+enum SomeEnum {
+    A,
+    B,
+    C
+}
+
+const enum SomeConstEnum {
+    A,
+    B,
+    C
+}
+
+interface SomeInterface {
+    a: number,
+
+    func(): void
+}
+
+class SomeBaseClass implements SomeInterface {
+    public v!: number
+    readonly r: SomeEnum
+    a: number
+    constructor(v: SomeConstEnum) {
         this.v = v
     }
 
     func() {
-        return this.v
     }
 
-    static func_static() { }
+    static func_static() {
+    }
 
     static get [Symbol.species]() {
         return 5
@@ -136,14 +155,20 @@ class SomeBaseClass {
 }
 
 class SomeClass extends SomeBaseClass {
-    constructor(v) {
+    constructor(v: number) {
         super(v)
     }
 
-    func() {
+    func(): void {
+        console.log("abc")
+    }
+
+    func2() {
         super.func()
     }
 }
+
+let b = SomeClass instanceof SomeBaseClass;
 
 let object = new Object();
 let object_clone = Object.assign({}, object)
@@ -169,7 +194,9 @@ let _ = "s" in object;
 let p2 = other_object.object_func()
 for (let a in other_object) { console.log(a) }
 
-let a_obj = new ConstructorFunc()
+console.log(b, object_clone, p1, _, p2)
+
+let a_obj = new ConstructorFunc(5)
 a_obj[Symbol.iterator] = function () {
     return {
         next() {
@@ -178,20 +205,11 @@ a_obj[Symbol.iterator] = function () {
     }
 }
 
-let k = new SomeBaseClass("saf")
+let k = new SomeBaseClass(SomeConstEnum.A)
 k.func()
 SomeBaseClass.func_static()
 k.v;
-let b = SomeClass instanceof SomeBaseClass;
 
-console.log(object_clone, p1, _, p2, b)
-
-// Misc
-
-test.exports = {
-    n1,
-    SomeClass,
-    generator,
-}
+if ("func" in SomeBaseClass) { }
 
 throw new Error("msg")

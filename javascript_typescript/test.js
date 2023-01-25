@@ -1,9 +1,9 @@
 "use strict"
 
-import { func_test2 as ftest2 } from './test2.js'
+import { func_test2 as f_test2 } from './test2.js'
 import * as t2 from './test2.js'
 
-ftest2()
+f_test2()
 t2.func_test2()
 
 // comment
@@ -24,6 +24,8 @@ let ty = typeof A3;
 let ty2 = typeof (1 + 2);
 let sym = Symbol("as");
 let a6 = new String(n1);
+
+console.log(n3, a4, a5, bol, bol3, undef, ty, ty2, sym, a6)
 
 // control flow
 
@@ -65,6 +67,7 @@ export function func1(param, p2 = 5, p3 = func1(5), ...args) {
     let a = n1 + n2 - arr[0] ** arr[1] + p2
 
     alert(param)
+    console.log(a, p3, args)
     return 0
 }
 let func2 = function (param, p2 = 5, p3 = func2(5)) {
@@ -90,6 +93,9 @@ let f1 = func1(6)
 let f2 = func2(5, 3, 7)
 let f3 = func3(1, 2)
 let f4 = func4(1)
+let g = generator()
+
+console.log(f1, f2, f3, f4, g)
 
 // Objects
 
@@ -126,12 +132,12 @@ class SomeClass extends SomeBaseClass {
 let object = new Object();
 let object_clone = Object.assign({}, object)
 object["f"] = "abc"
-let propname = "s";
+let prop_name = "s";
 let other_object = {
     prop1: 1,
     prop2: 2,
     "a b": null,
-    [propname]: true,
+    [prop_name]: true,
     return: 4,
     let: 5,
 
@@ -145,7 +151,7 @@ let p1 = other_object?.prop1;
 delete other_object["some_prop"];
 let _ = "s" in object;
 let p2 = other_object.object_func()
-for (let a in other_object) { }
+for (let a in other_object) { console.log(a) }
 
 let a_obj = new ConstructorFunc()
 a_obj[Symbol.iterator] = function () {
@@ -161,6 +167,8 @@ k.func()
 SomeBaseClass.func_static()
 k.v;
 let b = SomeClass instanceof SomeBaseClass;
+
+console.log(object_clone, p1, _, p2, b)
 
 // Misc
 

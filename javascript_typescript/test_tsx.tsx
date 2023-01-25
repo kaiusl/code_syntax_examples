@@ -1,9 +1,12 @@
 "use strict"
 
-import { func_test2 as ftest2 } from './test2.js'
+import { func_test2 as f_test2 } from './test2.js'
 import * as t2 from './test2.js'
+import React from 'react';
 
-ftest2()
+// TSX specific
+
+f_test2()
 t2.func_test2()
 
 // comment
@@ -13,7 +16,7 @@ var n1 = 5;
 let n2: number = 5.0;
 let n3 = 10n;
 let n4 = 10 as number;
-let n5 = <number>10
+let n5 = 10
 const A3: string = "sa ${a1}";
 let a4 = 's\na\x12';
 let a5 = `sa ${n1 + n2}`;
@@ -26,6 +29,8 @@ let ty = typeof A3;
 let ty2 = typeof (1 + 2);
 let sym = Symbol("as");
 let a6 = String(n1);
+
+console.log(n1, n2, n3, n4, n5, a4, a5, bol, bol3, undef, ty, ty2, sym, a6)
 
 // control flow
 
@@ -40,7 +45,6 @@ switch (v) {
 }
 
 // loops
-
 
 while (false) { }
 
@@ -62,14 +66,15 @@ type OneOrMore<T> = T | T[]
 type Kls = keyof SomeBaseClass
 
 /**
- * 
- * @param {number} param 
- * @returns 
+ *
+ * @param {number} param
+ * @returns
  */
 export function func1(param?: number, p2 = 5, p3 = func1(5), ...args): number {
     let a = n1 + n2 - arr[0] ** arr[1] + p2
 
     alert(param)
+    console.log(a, p3, args)
     return 0
 }
 
@@ -84,7 +89,6 @@ let func5 = function (): 0 | 1 | SomeEnum.A {
 }
 
 function generic_func<T extends { a: unknown }>(t: T) {
-
 }
 
 async function async_func() {
@@ -103,6 +107,12 @@ function* generator() {
 let f1 = func1(6)
 let f2 = func2(5, 3, 7)
 let f3 = func3(1, 2)
+let f4 = func4(1)
+let f5 = func5()
+let g = generator()
+let g2 = generic_func({ a: 1 })
+
+console.log(f1, f2, f3, f4, f5, g, g2)
 
 // objects
 
@@ -132,7 +142,7 @@ class SomeBaseClass implements SomeInterface {
     public v!: number
     readonly r: SomeEnum
     a: number
-    constructor(v) {
+    constructor(v: SomeConstEnum) {
         this.v = v
     }
 
@@ -140,7 +150,6 @@ class SomeBaseClass implements SomeInterface {
     }
 
     static func_static() {
-
     }
 
     static get [Symbol.species]() {
@@ -149,7 +158,7 @@ class SomeBaseClass implements SomeInterface {
 }
 
 class SomeClass extends SomeBaseClass {
-    constructor(v) {
+    constructor(v: number) {
         super(v)
     }
 
@@ -164,16 +173,15 @@ class SomeClass extends SomeBaseClass {
 
 let b = SomeClass instanceof SomeBaseClass;
 
-
 let object = new Object();
 let object_clone = Object.assign({}, object)
 object["f"] = "abc"
-let propname = "s";
+let prop_name = "s";
 let other_object = {
     prop1: 1,
     prop2: 2,
     "a b": null,
-    [propname]: true,
+    [prop_name]: true,
     return: 4,
     let: 5,
 
@@ -187,7 +195,9 @@ let p1 = other_object?.prop1;
 delete other_object["some_prop"];
 let _ = "s" in object;
 let p2 = other_object.object_func()
-for (let a in other_object) { }
+for (let a in other_object) { console.log(a) }
+
+console.log(b, object_clone, p1, _, p2)
 
 let a_obj = new ConstructorFunc(5)
 a_obj[Symbol.iterator] = function () {
@@ -198,19 +208,11 @@ a_obj[Symbol.iterator] = function () {
     }
 }
 
-let k = new SomeBaseClass("saf")
+let k = new SomeBaseClass(SomeConstEnum.A)
 k.func()
 SomeBaseClass.func_static()
 k.v;
 
 if ("func" in SomeBaseClass) { }
 
-
-test.exports = {
-    n1,
-    SomeClass,
-    generator,
-}
-
 throw new Error("msg")
-
